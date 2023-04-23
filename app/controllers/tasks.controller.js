@@ -1,11 +1,11 @@
 const db = require("../models");
-const Posts = db.posts;
-const Comments = db.comments;
+const Tasks = db.tasks;
+const Members = db.members;
 const upload = require("../middleware/uploadArray");
 
-exports.createPost = async (req, res) => {
+exports.createTask = async (req, res) => {
   console.log(
-    "🚀 ~ fil: posts.controller.js ~ line 7 ~ exports.createPost= ~ req",
+    "🚀 ~ fil: tasks.controller.js ~ line 7 ~ exports.createTask= ~ req",
     req.files
   );
   await upload(req, res);
@@ -36,7 +36,7 @@ exports.createPost = async (req, res) => {
   };
 
   // Save Task in the database
-  Posts.create(photo)
+  Tasks.create(photo)
     .then((data) => {
       res.send(data);
     })
@@ -48,10 +48,10 @@ exports.createPost = async (req, res) => {
     });
 };
 exports.addTaskManager = (req, res) => {
-  Comments.create({
+  Members.create({
     name: req.body.name,
     comment: req.body.comment,
-    PostId: req.body.postId,
+    TaskId: req.body.taskId,
     email: req.body.email,
   })
     .then((data) => {
@@ -64,10 +64,10 @@ exports.addTaskManager = (req, res) => {
       });
     });
 };
-exports.findPostById = (req, res) => {
-  const postId = req.params.postId;
+exports.findTaskById = (req, res) => {
+  const taskId = req.params.taskId;
 
-  return Posts.findByPk(postId, { include: ["comments"] })
+  return Tasks.findByPk(taskId, { include: ["members"] })
     .then((data) => {
       res.send(data);
     })
@@ -80,13 +80,13 @@ exports.findPostById = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-  return Posts.findAll({
+  return Tasks.findAll({
     // attributes: [
     //   "*",
-    //   [db.Sequelize.fn('date_format', db.Sequelize.col('post.createdAt'), '%d %b %y'), 'col_name']
+    //   [db.Sequelize.fn('date_format', db.Sequelize.col('task.createdAt'), '%d %b %y'), 'col_name']
 
     // ],
-    include: ["comments"],
+    include: ["members"],
   }).then((package) => {
     console.log(">> All tasks", JSON.stringify(package, null, 2));
     res.send(package);
@@ -95,10 +95,10 @@ exports.findAll = (req, res) => {
   });
 };
 exports.findALatest = (req, res) => {
-  return Posts.findAll({
+  return Tasks.findAll({
     limit: 4,
     order: [["createdAt", "DESC"]],
-    include: ["comments"],
+    include: ["members"],
   }).then((package) => {
     console.log("😀", package);
     console.log(">> All tasks", JSON.stringify(package, null, 2));
@@ -108,11 +108,11 @@ exports.findALatest = (req, res) => {
   });
 };
 exports.findTrending = (req, res) => {
-  return Posts.findAll({
+  return Tasks.findAll({
     limit: 4,
     order: [["trend", "DESC"]],
 
-    include: ["comments"],
+    include: ["members"],
   }).then((package) => {
     console.log("😀", package);
     console.log(">> All tasks", JSON.stringify(package, null, 2));
@@ -123,10 +123,10 @@ exports.findTrending = (req, res) => {
 };
 exports.findRandom = (req, res) => {
   const Sequelize = require("sequelize");
-  return Posts.findAll({
+  return Tasks.findAll({
     order: Sequelize.literal("rand()"),
     limit: 6,
-    include: ["comments"],
+    include: ["members"],
   }).then((package) => {
     console.log("😀", package);
     console.log(">> All tasks", JSON.stringify(package, null, 2));
@@ -137,7 +137,7 @@ exports.findRandom = (req, res) => {
 };
 exports.findTask = (req, res) => {
   const Sequelize = require("sequelize");
-  return Posts.findAll({
+  return Tasks.findAll({
     attributes: [
       [Sequelize.fn("DISTINCT", Sequelize.col("task")), "task"],
     ],
@@ -152,9 +152,9 @@ exports.findTask = (req, res) => {
 exports.findAllByTask = (req, res) => {
   const task = req.params.task;
 
-  return Posts.findAll({
+  return Tasks.findAll({
     where: { task: task },
-    include: ["comments"],
+    include: ["members"],
   }).then((package) => {
     console.log(">> All tasks", JSON.stringify(package, null, 2));
     res.send(package);
@@ -164,9 +164,9 @@ exports.findAllByTask = (req, res) => {
 };exports.findAllByProvider = (req, res) => {
   const trend = req.params.trend;
 
-  return Posts.findAll({
+  return Tasks.findAll({
     where: { trend: trend },
-    include: ["comments"],
+    include: ["members"],
   }).then((package) => {
     console.log(">> All tasks", JSON.stringify(package, null, 2));
     res.send(package);
@@ -177,9 +177,9 @@ exports.findAllByTask = (req, res) => {
 exports.findAllByTask = (req, res) => {
   const task = req.params.task;
 
-  return Posts.findAll({
+  return Tasks.findAll({
     where: { task: task },
-    include: ["comments"],
+    include: ["members"],
   }).then((package) => {
     console.log(">> All tasks", JSON.stringify(package, null, 2));
     res.send(package);
@@ -188,7 +188,7 @@ exports.findAllByTask = (req, res) => {
   });
 };
 exports.findAllPackageNames = (req, res) => {
-  return Posts.findAll({
+  return Tasks.findAll({
     attributes: ["title"],
   }).then((package) => {
     console.log(">> All tasks", JSON.stringify(package, null, 2));
@@ -198,7 +198,7 @@ exports.findAllPackageNames = (req, res) => {
   });
 };
 exports.findTaskById = (req) => {
-  return Posts.findByPk((packageId = req.body.packageId), {
+  return Tasks.findByPk((packageId = req.body.packageId), {
     include: ["sub_packages"],
   })
     .then((tasks) => {
@@ -210,7 +210,7 @@ exports.findTaskById = (req) => {
 };
 exports.delete = (req, res) => {
   const id = req.params.id;
-  Posts.destroy({
+  Tasks.destroy({
     where: { id: id },
   })
     .then((num) => {
@@ -232,7 +232,7 @@ exports.delete = (req, res) => {
 };
 exports.deleteComments = (req, res) => {
   const id_p = req.params.id_p;
-  Comments.destroy({
+  Members.destroy({
     where: { id_p: id_p },
   })
     .then((num) => {
@@ -255,7 +255,7 @@ exports.deleteComments = (req, res) => {
 exports.updateTrend = (req, res) => {
   const id = req.body.id;
 
-  Posts.update(
+  Tasks.update(
     { isBlur: false},
     {
       where: { id: id },
@@ -281,7 +281,7 @@ exports.updateTrend = (req, res) => {
 exports.updateParagraph = (req, res) => {
   const id = req.body.id;
 
-  Posts.update(
+  Tasks.update(
     {
       para1: req.body.para1,
       para2: req.body.para2,

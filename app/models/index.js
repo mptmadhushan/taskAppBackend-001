@@ -26,7 +26,7 @@ db.comments = require("./team.model")(sequelize, Sequelize);
 
 db.tasks.hasMany(db.comments, { as: "comments" });
 db.comments.belongsTo(db.tasks, {
-  foreignKey: "PostId",
+  foreignKey: "TaskId",
   as: "tasks",
 });
 db.role.belongsToMany(db.user, {
