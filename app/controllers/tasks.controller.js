@@ -32,10 +32,10 @@ exports.createPost = async (req, res) => {
     email: req.body.email,
     price: req.body.price,
     trend: req.body.trend,
-    category: req.body.category,
+    task: req.body.task,
   };
 
-  // Save Tutorial in the database
+  // Save Task in the database
   Posts.create(photo)
     .then((data) => {
       res.send(data);
@@ -43,11 +43,11 @@ exports.createPost = async (req, res) => {
     .catch((err) => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Tutorial.",
+          err.message || "Some error occurred while creating the Task.",
       });
     });
 };
-exports.createComment = (req, res) => {
+exports.addTaskManager = (req, res) => {
   Comments.create({
     name: req.body.name,
     comment: req.body.comment,
@@ -60,7 +60,7 @@ exports.createComment = (req, res) => {
     .catch((err) => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Tutorial.",
+          err.message || "Some error occurred while creating the Task.",
       });
     });
 };
@@ -74,7 +74,7 @@ exports.findPostById = (req, res) => {
     .catch((err) => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Tutorial.",
+          err.message || "Some error occurred while creating the Task.",
       });
     });
 };
@@ -135,11 +135,11 @@ exports.findRandom = (req, res) => {
     // return package;
   });
 };
-exports.findCategory = (req, res) => {
+exports.findTask = (req, res) => {
   const Sequelize = require("sequelize");
   return Posts.findAll({
     attributes: [
-      [Sequelize.fn("DISTINCT", Sequelize.col("category")), "category"],
+      [Sequelize.fn("DISTINCT", Sequelize.col("task")), "task"],
     ],
   }).then((package) => {
     console.log("😀", package);
@@ -149,11 +149,11 @@ exports.findCategory = (req, res) => {
     // return package;
   });
 };
-exports.findAllByCategory = (req, res) => {
-  const category = req.params.category;
+exports.findAllByTask = (req, res) => {
+  const task = req.params.task;
 
   return Posts.findAll({
-    where: { category: category },
+    where: { task: task },
     include: ["comments"],
   }).then((package) => {
     console.log(">> All tasks", JSON.stringify(package, null, 2));
@@ -174,11 +174,11 @@ exports.findAllByCategory = (req, res) => {
     // return package;
   });
 };
-exports.findAllByCategory = (req, res) => {
-  const category = req.params.category;
+exports.findAllByTask = (req, res) => {
+  const task = req.params.task;
 
   return Posts.findAll({
-    where: { category: category },
+    where: { task: task },
     include: ["comments"],
   }).then((package) => {
     console.log(">> All tasks", JSON.stringify(package, null, 2));
@@ -197,7 +197,7 @@ exports.findAllPackageNames = (req, res) => {
     // return package;
   });
 };
-exports.findTutorialById = (req) => {
+exports.findTaskById = (req) => {
   return Posts.findByPk((packageId = req.body.packageId), {
     include: ["sub_packages"],
   })
@@ -216,17 +216,17 @@ exports.delete = (req, res) => {
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "Tutorial was deleted successfully!",
+          message: "Task was deleted successfully!",
         });
       } else {
         res.send({
-          message: `Cannot delete Tutorial with id=${id}. Maybe Tutorial was not found!`,
+          message: `Cannot delete Task with id=${id}. Maybe Task was not found!`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Could not delete Tutorial with id=" + id,
+        message: "Could not delete Task with id=" + id,
       });
     });
 };
@@ -238,17 +238,17 @@ exports.deleteComments = (req, res) => {
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "Tutorial was deleted successfully!",
+          message: "Task was deleted successfully!",
         });
       } else {
         res.send({
-          message: `Cannot delete Tutorial with id=${id_p}. Maybe Tutorial was not found!`,
+          message: `Cannot delete Task with id=${id_p}. Maybe Task was not found!`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Could not delete Tutorial with id=" + err,
+        message: "Could not delete Task with id=" + err,
       });
     });
 };
@@ -264,17 +264,17 @@ exports.updateTrend = (req, res) => {
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "Tutorial was updated successfully.",
+          message: "Task was updated successfully.",
         });
       } else {
         res.send({
-          message: `Cannot update Tutorial with id=${id}. Maybe Tutorial was not found or req.body is empty!`,
+          message: `Cannot update Task with id=${id}. Maybe Task was not found or req.body is empty!`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error updating Tutorial with id=" + id,
+        message: "Error updating Task with id=" + id,
       });
     });
 };
@@ -294,17 +294,17 @@ exports.updateParagraph = (req, res) => {
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "Tutorial was updated successfully.",
+          message: "Task was updated successfully.",
         });
       } else {
         res.send({
-          message: `Cannot update Tutorial with id=${id}. Maybe Tutorial was not found or req.body is empty!`,
+          message: `Cannot update Task with id=${id}. Maybe Task was not found or req.body is empty!`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error updating Tutorial with id=" + id,
+        message: "Error updating Task with id=" + id,
       });
     });
 };
