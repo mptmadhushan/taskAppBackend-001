@@ -88,7 +88,7 @@ exports.findAll = (req, res) => {
     // ],
     include: ["comments"],
   }).then((package) => {
-    console.log(">> All tutorials", JSON.stringify(package, null, 2));
+    console.log(">> All tasks", JSON.stringify(package, null, 2));
     res.send(package);
     // console.log(package);
     // return package;
@@ -101,7 +101,7 @@ exports.findALatest = (req, res) => {
     include: ["comments"],
   }).then((package) => {
     console.log("😀", package);
-    console.log(">> All tutorials", JSON.stringify(package, null, 2));
+    console.log(">> All tasks", JSON.stringify(package, null, 2));
     res.send(package);
     // console.log(package);
     // return package;
@@ -115,7 +115,7 @@ exports.findTrending = (req, res) => {
     include: ["comments"],
   }).then((package) => {
     console.log("😀", package);
-    console.log(">> All tutorials", JSON.stringify(package, null, 2));
+    console.log(">> All tasks", JSON.stringify(package, null, 2));
     res.send(package);
     // console.log(package);
     // return package;
@@ -129,7 +129,7 @@ exports.findRandom = (req, res) => {
     include: ["comments"],
   }).then((package) => {
     console.log("😀", package);
-    console.log(">> All tutorials", JSON.stringify(package, null, 2));
+    console.log(">> All tasks", JSON.stringify(package, null, 2));
     res.send(package);
     // console.log(package);
     // return package;
@@ -143,7 +143,7 @@ exports.findCategory = (req, res) => {
     ],
   }).then((package) => {
     console.log("😀", package);
-    console.log(">> All tutorials", JSON.stringify(package, null, 2));
+    console.log(">> All tasks", JSON.stringify(package, null, 2));
     res.send(package);
     // console.log(package);
     // return package;
@@ -156,7 +156,7 @@ exports.findAllByCategory = (req, res) => {
     where: { category: category },
     include: ["comments"],
   }).then((package) => {
-    console.log(">> All tutorials", JSON.stringify(package, null, 2));
+    console.log(">> All tasks", JSON.stringify(package, null, 2));
     res.send(package);
     // console.log(package);
     // return package;
@@ -168,7 +168,7 @@ exports.findAllByCategory = (req, res) => {
     where: { trend: trend },
     include: ["comments"],
   }).then((package) => {
-    console.log(">> All tutorials", JSON.stringify(package, null, 2));
+    console.log(">> All tasks", JSON.stringify(package, null, 2));
     res.send(package);
     // console.log(package);
     // return package;
@@ -181,7 +181,7 @@ exports.findAllByCategory = (req, res) => {
     where: { category: category },
     include: ["comments"],
   }).then((package) => {
-    console.log(">> All tutorials", JSON.stringify(package, null, 2));
+    console.log(">> All tasks", JSON.stringify(package, null, 2));
     res.send(package);
     // console.log(package);
     // return package;
@@ -191,7 +191,7 @@ exports.findAllPackageNames = (req, res) => {
   return Posts.findAll({
     attributes: ["title"],
   }).then((package) => {
-    console.log(">> All tutorials", JSON.stringify(package, null, 2));
+    console.log(">> All tasks", JSON.stringify(package, null, 2));
     res.send(package);
     // console.log(package);
     // return package;
@@ -201,11 +201,11 @@ exports.findTutorialById = (req) => {
   return Posts.findByPk((packageId = req.body.packageId), {
     include: ["sub_packages"],
   })
-    .then((tutorial) => {
-      return tutorial;
+    .then((tasks) => {
+      return tasks;
     })
     .catch((err) => {
-      console.log(">> Error while finding tutorial: ", err);
+      console.log(">> Error while finding tasks: ", err);
     });
 };
 exports.delete = (req, res) => {

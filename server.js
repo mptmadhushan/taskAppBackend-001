@@ -48,9 +48,7 @@ app.get("/", (req, res) => {
 
 require("./app/routes/auth.routes")(app);
 require("./app/routes/user.routes")(app);
-require("./app/routes/posts.routes")(app);
-require("./app/routes/ads.routes")(app);
-require("./app/routes/contact.cpg.mail.routes")(app);
+require("./app/routes/tasks.routes")(app);
 
 // set port, listen for requests
 const PORT = 3002;

@@ -1,3 +1,3 @@
 module.exports = {
-  secret: "help-out-secret-key",
+  secret: "leaf-secret-key",
 };
