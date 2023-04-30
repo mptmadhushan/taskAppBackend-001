@@ -98,3 +98,16 @@ exports.signin = (req, res) => {
       res.status(500).send({ message: err.message });
     });
 };
+
+
+exports.findAll = (req,res) => {
+  return User.findAll({
+    
+  })
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      console.log(">> Error while retrieving Tasks: ", err);
+    });
+};
