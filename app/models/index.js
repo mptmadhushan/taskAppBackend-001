@@ -22,7 +22,7 @@ db.sequelize = sequelize;
 db.user = require("./user.model.js")(sequelize, Sequelize);
 db.role = require("./role.model.js")(sequelize, Sequelize);
 
-db.tutorial = require("./tutorial.model")(sequelize, Sequelize);
+db.task = require("./task.model")(sequelize, Sequelize);
 db.tag = require("./tag.model")(sequelize, Sequelize);
 
 
@@ -32,26 +32,15 @@ db.role.belongsToMany(db.user, {
   otherKey: "userId",
 });
 
-db.user.belongsToMany(db.role, {
-  through: "user_roles",
-  foreignKey: "userId",
-  otherKey: "roleId",
-});
 
-db.tag.belongsToMany(db.tutorial, {
-  through: "tutorial_tag",
-  as: "tutorials",
+db.user.belongsToMany(db.task, {
+  through: "task_user",
+  as: "tasks",
   foreignKey: "tag_id",
 });
 
-db.tutorial.belongsToMany(db.tag, {
-  through: "tutorial_tag",
-  as: "tags",
-  foreignKey: "tutorial_id",
-});
-
-db.tutorial.belongsToMany(db.user, {
-  through: "user_tasks",
+db.task.belongsToMany(db.user, {
+  through: "task_user",
   as: "users",
   foreignKey: "tutorial_id",
 });

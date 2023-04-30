@@ -5,7 +5,7 @@ module.exports = (app) => {
 
   router.post("/add", tags.create);
   router.get("/getAll", tags.findAll);
-  router.post("/addTutorial", tags.addTutorial);
+  router.post("/addTaskUser", tags.addTutorial);
 
   app.use("/api/tag", router);
 };

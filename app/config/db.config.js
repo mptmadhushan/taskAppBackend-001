@@ -2,7 +2,7 @@ module.exports = {
   HOST: "localhost",
   USER: "root",
   PASSWORD: "password",
-  DB: "taskApp",
+  DB: "taskManagement",
   dialect: "mysql",
   pool: {
     max: 5,

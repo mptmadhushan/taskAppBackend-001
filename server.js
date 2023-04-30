@@ -49,7 +49,7 @@ app.get("/", (req, res) => {
 require("./app/routes/auth.routes")(app);
 require("./app/routes/user.routes")(app);
 require("./app/routes/tags.routes")(app);
-require("./app/routes/tutorial.routes")(app);
+require("./app/routes/task.routes")(app);
 
 // set port, listen for requests
 const PORT = 3002;

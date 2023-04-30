@@ -1,6 +1,7 @@
 const db = require("../models");
-const Tutorial = db.tutorial;
+const Tutorial = db.task;
 const Tag = db.tag;
+const User = db.user;
 
 exports.create = (req,res) => {
     return Tag.create({
@@ -14,7 +15,7 @@ exports.create = (req,res) => {
         console.log(">> Error while creating Tag: ", err);
       });
   };
-//🤬 
+//:
   exports.findAll = (req,res) => {
     return Tag.findAll({
       include: [
@@ -37,26 +38,55 @@ exports.create = (req,res) => {
   };
 
   exports.addTutorial = (req, res) => {
-    return Tag.findByPk(req.body.tagId)
+    console.log("🚀 ~ file: tag.controller.js:40 ~ req:", req)
+    return User.findByPk(req.user_id)
+    
+      .then((task) => {
+        console.log("🚀  ~ tag:", task)
+        if (!task) {
+          console.log("Tag not found!");
+          return null;
+        }
+        return Tutorial.findByPk(req.task_id).then((task) => {
+          if (!tutorial) {
+          console.log(`>> added Tutorial id=${task.id} to Tag id=${task.id}`);
+
+            // res.send({ message: "Tutorial not found!" });
+            return null;
+          }
+  
+          task.addTutorial(tutorial);
+        //   res.send({ message:`>> added Tutorial id=${tutorial.id} to Tag id=${tag.id}` });
+          console.log(`>> added Tutorial id=${tutorial.id} to Tag id=${task.id}`);
+          return task;
+        });
+      })
+      .catch((err) => {
+        // res.send({ message:`>> Error while adding Tutorial to Tag:, ${err}`});
+        console.log(">> Error while adding Tutorial to Tag: ", err);
+      });
+  };
+
+  exports.addTaskUser = (tagId, tutorialId) => {
+    return User.findByPk(tagId)
       .then((tag) => {
+        console.log("🚀 ~ file: tag.controller.js:73 ~ .then ~ tag:", tag)
         if (!tag) {
           console.log("Tag not found!");
           return null;
         }
-        return Tutorial.findByPk(req.body.tutorialId).then((tutorial) => {
+        return Tutorial.findByPk(tutorialId).then((tutorial) => {
           if (!tutorial) {
-            res.send({ message: "Tutorial not found!" });
+            console.log("Tutorial not found!");
             return null;
           }
   
-          tag.addTutorial(tutorial);
-          res.send({ message:`>> added Tutorial id=${tutorial.id} to Tag id=${tag.id}` });
+          tag.addTaskUser(tutorial);
           console.log(`>> added Tutorial id=${tutorial.id} to Tag id=${tag.id}`);
           return tag;
         });
       })
       .catch((err) => {
-        res.send({ message:`>> Error while adding Tutorial to Tag:, ${err}`});
         console.log(">> Error while adding Tutorial to Tag: ", err);
       });
   };
