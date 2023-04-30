@@ -43,7 +43,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to helpOut application." });
+  res.json({ message: "Welcome to TaskMap application." });
 });
 
 require("./app/routes/auth.routes")(app);
