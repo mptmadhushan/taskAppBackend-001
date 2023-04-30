@@ -67,26 +67,76 @@ exports.create = (req,res) => {
       });
   };
 
-  exports.addTaskUser = (tagId, tutorialId) => {
-    return User.findByPk(tagId)
-      .then((tag) => {
-        console.log("🚀 ~ file: tag.controller.js:73 ~ .then ~ tag:", tag)
-        if (!tag) {
-          console.log("Tag not found!");
-          return null;
+  exports.addTaskUser=(tagId,tutorialId)=> {
+  return User.findByPk(1)
+      .then((user) => {
+        if (!user) {
+          console.log('Recipe Not Found')
+          return res.status(400).json({ message: 'Recipe Not Found' });
         }
-        return Tutorial.findByPk(tutorialId).then((tutorial) => {
-          if (!tutorial) {
-            console.log("Tutorial not found!");
-            return null;
-          }
   
-          tag.addTaskUser(tutorial);
-          console.log(`>> added Tutorial id=${tutorial.id} to Tag id=${tag.id}`);
-          return tag;
-        });
+        user.addIngredient(2
+        )
+          .then((response) => {
+            console.log("🚀 ~ file: tag.controller.js:81 ~ .then ~ response:", response)
+            return res.status(200).json(response)
+          })
+          .catch((error) => {
+            console.log("🚀 ~ file: tag.controller.js:84 ~ .then ~ error:", error)
+            return res.status(400).json(error)
+          });
       })
-      .catch((err) => {
-        console.log(">> Error while adding Tutorial to Tag: ", err);
+      .catch((error) => {
+        console.log("🚀 ~ file: tag.controller.js:88 ~ error:", error)
+        return res.status(400).json(error)
       });
-  };
+  }
+
+  // exports.addTaskUser=(req, res)=> {
+  //   Recipe.findById(req.params.recipeId)
+  //     .then((recipe) => {
+  //       if (!recipe) {
+  //         return res.status(400).json({ message: 'Recipe Not Found' });
+  //       }
+  
+  //       recipe.addIngredient(req.params.ingredientId, {
+  //         through: {
+  //           meassurementAmount: req.body.meassurementAmount,
+  //           meassurementType: req.body.meassurementType
+  //         }
+  //       })
+  //         .then((response) => {
+  //           return res.status(200).json(response)
+  //         })
+  //         .catch((error) => {
+  //           return res.status(400).json(error)
+  //         });
+  //     })
+  //     .catch((error) => {
+  //       return res.status(400).json(error)
+  //     });
+  // }
+  
+  // exports.addTaskUser = (tagId, tutorialId) => {
+  //   return Tutorial.findByPk(tutorialId)
+  //     .then((tag) => {
+  //       console.log("🚀 ~ file: tag.controller.js:73 ~ .then ~ tag:", tag)
+  //       if (!tag) {
+  //         console.log("Tag not found!");
+  //         return null;
+  //       }
+  //       return User.findByPk(tagId).then((user) => {
+  //         if (!user) {
+  //           console.log("Tutorial not found!");
+  //           return null;
+  //         }
+  
+  //         tag.addTaskUser(user);
+  //         console.log(`>> added Tutorial id=${tutorial.id} to Tag id=${tag.id}`);
+  //         return tag;
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       console.log(">> Error while adding Tutorial to Tag: ", err);
+  //     });
+  // };

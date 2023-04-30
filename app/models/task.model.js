@@ -11,6 +11,13 @@ module.exports = (sequelize, DataTypes) => {
       },
       location:{
         type:DataTypes.STRING
+      },
+      isRepeat:{
+        type:DataTypes.STRING
+      },
+      status:{
+        type:DataTypes.STRING
+
       }
     });
   

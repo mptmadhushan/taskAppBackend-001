@@ -11,6 +11,8 @@ exports.create = (req,res) => {
     description:  req.body.description,
     date:req.body.description,
     location:req.body.location,
+    isRepeat:req.body.isRepeat,
+    status:req.body.status,
   })
     .then((task) => {
       const tutorialId=task.id
