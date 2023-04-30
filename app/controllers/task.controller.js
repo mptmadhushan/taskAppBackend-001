@@ -70,3 +70,38 @@ exports.findById = (id) => {
       console.log(">> Error while finding Task: ", err);
     });
 };
+
+exports.findTrending = (req, res) => {
+  return Task.findAll({
+    limit: 4,
+    order: [["trend", "DESC"]],
+  }).then((package) => {
+    console.log("😀", package);
+    res.send(package);
+    // console.log(package);
+    // return package;
+  });
+};
+
+exports.delete = (req, res) => {
+  const id = req.params.id;
+  Task.destroy({
+    where: { id: id },
+  })
+    .then((num) => {
+      if (num == 1) {
+        res.send({
+          message: "Tutorial was deleted successfully!",
+        });
+      } else {
+        res.send({
+          message: `Cannot delete Tutorial with id=${id}. Maybe Tutorial was not found!`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Could not delete Tutorial with id=" + id,
+      });
+    });
+};
