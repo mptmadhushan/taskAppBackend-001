@@ -15,13 +15,22 @@ exports.create = (req,res) => {
     status:req.body.status,
   })
     .then((task) => {
-      const tutorialId=task.id
-      const tagId=req.body.userId
-      if(req.body.userId){
-        tags.addTaskUser(tagId,tutorialId)
-      }
+      // User.findAll({
+      //     where: {
+      //       id: 1,
+      //     },
+      //   }).then((users) => {
+      //     task.setRoles(users).then(() => {
+      //       res.send({ message: "User was registered successfully!" });
+      //     });
+      //     });
+      // const tutorialId=task.id
+      // const tagId=req.body.userId
+      // if(req.body.userId){
+      //   tags.addTaskUser(tagId,tutorialId)
+      // }
       res.send({ message: "Task Added registered successfully!" })
-      return task;
+      // return task;
     })
     .catch((err) => {
       console.log(">> Error while creating Task: ", err);

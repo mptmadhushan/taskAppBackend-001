@@ -2,7 +2,7 @@ const db = require("../models");
 const config = require("../config/auth.config");
 const User = db.user;
 const Role = db.role;
-
+const Task = db.task;
 const Op = db.Sequelize.Op;
 
 var jwt = require("jsonwebtoken");
@@ -109,5 +109,34 @@ exports.findAll = (req,res) => {
     })
     .catch((err) => {
       console.log(">> Error while retrieving Tasks: ", err);
+    });
+};
+
+exports.addTaskUser = (req, res) => {
+  const {userId, taskId} = req.body;
+  return User.findByPk(userId)
+    .then((user) => {
+      if (!user) {
+          res.status(400).send({
+              message: "User can not be empty!"
+          });
+          return;
+      }
+      console.log("User : ", user)
+      return Task.findByPk(taskId).then((task) => {
+        if (!task) {
+          res.status(400).send({
+              message: "Task can not be empty!"
+          });
+          return;
+        }
+
+        user.addTask(task);
+        console.log(`>> added task id=${task.id} to Tag id=${user.id}`);
+        res.send(user);
+      });
+    })
+    .catch((err) => {
+      console.log(">> Error while adding task to user: ", err);
     });
 };

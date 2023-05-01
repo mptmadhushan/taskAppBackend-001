@@ -44,18 +44,27 @@ db.role.belongsToMany(db.user, {
 //   as: "users",
 //   foreignKey: "tutorial_id",
 // });
+// db.user.belongsToMany(db.task, {
+//   through: "user_task",
+//   foreignKey: 'userId',
+//   as: 'tasks'
+// });
+// db.task.belongsToMany(db.user, {
+//   through: "user_task",
+//   foreignKey: 'recipeId',
+//   as: 'users'
+// });
+
 db.user.belongsToMany(db.task, {
   through: "user_task",
-  foreignKey: 'userId',
-  as: 'tasks'
+  as: "tasks",
+  foreignKey: "user_id",
 });
 db.task.belongsToMany(db.user, {
   through: "user_task",
-  foreignKey: 'recipeId',
-  as: 'users'
+  as: "users",
+  foreignKey: "task_id",
 });
-// db.user.belongsToMany(db.task, { through: 'task_user' });
-// db.task.belongsToMany(db.user, { through: 'task_user' });
 
 db.ROLES = ["user", "admin", "provider"];
 
