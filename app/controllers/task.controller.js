@@ -29,7 +29,7 @@ exports.create = (req,res) => {
       // if(req.body.userId){
       //   tags.addTaskUser(tagId,tutorialId)
       // }
-      res.send({ message: "Task Added registered successfully!" })
+      res.send({task})
       // return task;
     })
     .catch((err) => {

@@ -22,5 +22,6 @@ module.exports = function (app) {
   app.post("/api/auth/signin", controller.signin);
   app.get("/api/user/getAll", controller.findAll);
   app.post("/api/user/addTask", controller.addTaskUser);
+  app.post("/api/user/update", controller.update);
   
 };

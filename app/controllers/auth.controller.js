@@ -17,7 +17,7 @@ exports.signup = (req, res) => {
     password: bcrypt.hashSync(req.body.password, 8),
   })
     .then((user) => {
-          res.send({ message: "User was registered successfully!" });
+      res.send({ message: "User was registered successfully!" });
       // if (req.body.roles) {
       //   Role.findAll({
       //     where: {
@@ -31,10 +31,10 @@ exports.signup = (req, res) => {
       //     });
       //   });
       // } else {
-        // user role = 1
-        // user.setRoles([1]).then(() => {
-        //   res.send({ message: "User was registered successfully!" });
-        // });
+      // user role = 1
+      // user.setRoles([1]).then(() => {
+      //   res.send({ message: "User was registered successfully!" });
+      // });
       // }
     })
     .catch((err) => {
@@ -70,13 +70,13 @@ exports.signin = (req, res) => {
       });
 
       var authorities = [];
-         res.status(200).send({
-          id: user.id,
-          username: user.username,
-          email: user.email,
-          phone: user.phone,
-          accessToken: token,
-        });
+      res.status(200).send({
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        phone: user.phone,
+        accessToken: token,
+      });
       // user.getRoles().then((roles) => {
       //   for (let i = 0; i < roles.length; i++) {
       //     authorities.push("ROLE_" + roles[i].name.toUpperCase());
@@ -99,11 +99,8 @@ exports.signin = (req, res) => {
     });
 };
 
-
-exports.findAll = (req,res) => {
-  return User.findAll({
-    
-  })
+exports.findAll = (req, res) => {
+  return User.findAll({})
     .then((data) => {
       res.send(data);
     })
@@ -113,20 +110,20 @@ exports.findAll = (req,res) => {
 };
 
 exports.addTaskUser = (req, res) => {
-  const {userId, taskId} = req.body;
+  const { userId, taskId } = req.body;
   return User.findByPk(userId)
     .then((user) => {
       if (!user) {
-          res.status(400).send({
-              message: "User can not be empty!"
-          });
-          return;
+        res.status(400).send({
+          message: "User can not be empty!",
+        });
+        return;
       }
-      console.log("User : ", user)
+      console.log("User : ", user);
       return Task.findByPk(taskId).then((task) => {
         if (!task) {
           res.status(400).send({
-              message: "Task can not be empty!"
+            message: "Task can not be empty!",
           });
           return;
         }
@@ -139,4 +136,20 @@ exports.addTaskUser = (req, res) => {
     .catch((err) => {
       console.log(">> Error while adding task to user: ", err);
     });
+};
+
+exports.update = (req, res) => {
+  const { id } = req.body;
+  User.update(
+    { username:req.body.username},
+    { where: { id: id } },
+  )
+    .then(result =>
+      res.send(result)
+      // handleResult(result)
+    )
+    .catch(err => {
+      console.log("🚀 ~ file: auth.controller.js:155 ~ err:", err)
+      return // handleError(err)
+    })
 };
