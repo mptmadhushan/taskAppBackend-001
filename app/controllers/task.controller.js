@@ -9,7 +9,7 @@ exports.create = (req,res) => {
   return Task.create({
     title:  req.body.title,
     description:  req.body.description,
-    date:req.body.description,
+    date:req.body.date,
     location:req.body.location,
     isRepeat:req.body.isRepeat,
     status:req.body.status,
