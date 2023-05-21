@@ -6,6 +6,7 @@ const Tag = db.tag;
 const User = db.user;
 
 exports.create = (req,res) => {
+  console.log("🚀 ~ file: task.controller.js:9 ~ req:", req.body.date)
   return Task.create({
     title:  req.body.title,
     description:  req.body.description,
@@ -13,6 +14,7 @@ exports.create = (req,res) => {
     location:req.body.location,
     isRepeat:req.body.isRepeat,
     status:req.body.status,
+    userId:req.body.userId,
   })
     .then((task) => {
       // User.findAll({
@@ -47,6 +49,7 @@ exports.findAll = (req,res) => {
         through: {
           attributes: [],
         },
+        order: [['createdAt', 'DESC']],
       },
     ],
   })
